@@ -87,6 +87,10 @@ func (p *nopPage) BundleType() string {
 	return ""
 }
 
+func (p *nopPage) Category() string {
+	return ""
+}
+
 func (p *nopPage) Content() (interface{}, error) {
 	return "", nil
 }

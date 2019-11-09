@@ -135,6 +135,9 @@ type PageMetaProvider interface {
 	// See https://gohugo.io/content-management/page-bundles/
 	BundleType() string
 
+	// Category returns the first category.
+	Category() string
+
 	// A configured description.
 	Description() string
 

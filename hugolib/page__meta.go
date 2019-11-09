@@ -117,6 +117,8 @@ type pageMeta struct {
 
 	f source.File
 
+	categories []string
+
 	sections []string
 
 	// Sitemap overrides from front matter.
@@ -162,6 +164,13 @@ func (p *pageMeta) Authors() page.AuthorList {
 
 func (p *pageMeta) BundleType() string {
 	return p.bundleType
+}
+
+func (p *pageMeta) Category() string {
+	if len(p.categories) == 0 {
+		return ""
+	}
+	return p.categories[0]
 }
 
 func (p *pageMeta) Description() string {
@@ -436,6 +445,9 @@ func (pm *pageMeta) setMetadata(bucket *pagesMapBucket, p *pageState, frontmatte
 		case "keywords":
 			pm.keywords = cast.ToStringSlice(v)
 			pm.params[loki] = pm.keywords
+		case "categories":
+			pm.categories = cast.ToStringSlice(v)
+			pm.params[loki] = pm.categories
 		case "headless":
 			// For now, only the leaf bundles ("index.md") can be headless (i.e. produce no output).
 			// We may expand on this in the future, but that gets more complex pretty fast.

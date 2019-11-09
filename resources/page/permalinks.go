@@ -55,6 +55,7 @@ func NewPermalinkExpander(ps *helpers.PathSpec) (PermalinkExpander, error) {
 		"section":     p.pageToPermalinkSection,
 		"sections":    p.pageToPermalinkSections,
 		"title":       p.pageToPermalinkTitle,
+		"category":    p.pageToPermalinkCategoryElseSection,
 		"slug":        p.pageToPermalinkSlugElseTitle,
 		"filename":    p.pageToPermalinkFilename,
 	}
@@ -234,6 +235,14 @@ func (l PermalinkExpander) pageToPermalinkFilename(p Page, _ string) (string, er
 	}
 
 	return l.ps.URLize(name), nil
+}
+
+// if the page has a category, return the category, else return the section
+func (l PermalinkExpander) pageToPermalinkCategoryElseSection(p Page, a string) (string, error) {
+	if p.Category() != "" {
+		return l.ps.URLize(p.Category()), nil
+	}
+	return l.pageToPermalinkSection(p, a)
 }
 
 // if the page has a slug, return the slug, else return the title
